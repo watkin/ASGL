@@ -1,0 +1,10 @@
+//params f1:Float3, f2:Float3, [opFloat3:Float3]
+//result opFloat3:Float3
+
+if (opFloat3 == null) {
+	opFloat3 = new Float3(f1.y * f2.z - f1.z * f2.y, f1.z * f2.x - f1.x * f2.z, f1.x * f2.y - f1.y * f2.x);
+} else {
+	opFloat3.x = f1.y * f2.z - f1.z * f2.y;
+	opFloat3.y = f1.z * f2.x - f1.x * f2.z;
+	opFloat3.z = f1.x * f2.y - f1.y * f2.x;
+}

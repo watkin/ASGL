@@ -1,0 +1,127 @@
+//params frustum:BoundingFrustum, minX:Number, maxX:Number, minY:Number, maxY:Number, minZ:Number, maxZ:Number
+//result state
+
+var state:int;
+var side:int = 0;
+
+var x1:Number = frustum.rightX * minX + frustum.rightW;
+var x2:Number = frustum.rightX * maxX + frustum.rightW;
+var y1:Number = frustum.rightY * minY;
+var y2:Number = frustum.rightY * maxY;
+var z1:Number = frustum.rightZ * minZ;
+var z2:Number = frustum.rightZ * maxZ;
+state = 0;
+if (x1 + y1 + z1 >= 0) state++;
+if (x2 + y1 + z1 >= 0) state++;
+if (x1 + y2 + z1 >= 0) state++;
+if (x2 + y2 + z1 >= 0) state++;
+if (x1 + y1 + z2 >= 0) state++;
+if (x2 + y1 + z2 >= 0) state++;
+if (x1 + y2 + z2 >= 0) state++;
+if (x2 + y2 + z2 >= 0) state++;
+//manual inline, fuck as3
+if (state > 0) {
+	if (state == 8) side++;
+	x1 = frustum.leftX * minX + frustum.leftW;
+	x2 = frustum.leftX * maxX + frustum.leftW;
+	y1 = frustum.leftY * minY;
+	y2 = frustum.leftY * maxY;
+	z1 = frustum.leftZ * minZ;
+	z2 = frustum.leftZ * maxZ;
+	state = 0;
+	if (x1 + y1 + z1 >= 0) state++;
+	if (x2 + y1 + z1 >= 0) state++;
+	if (x1 + y2 + z1 >= 0) state++;
+	if (x2 + y2 + z1 >= 0) state++;
+	if (x1 + y1 + z2 >= 0) state++;
+	if (x2 + y1 + z2 >= 0) state++;
+	if (x1 + y2 + z2 >= 0) state++;
+	if (x2 + y2 + z2 >= 0) state++;
+	
+	if (state > 0) {
+		if (state == 8) side++;
+		x1 = frustum.topX * minX + frustum.topW;
+		x2 = frustum.topX * maxX + frustum.topW;
+		y1 = frustum.topY * minY;
+		y2 = frustum.topY * maxY;
+		z1 = frustum.topZ * minZ;
+		z2 = frustum.topZ * maxZ;
+		state = 0;
+		if (x1 + y1 + z1 >= 0) state++;
+		if (x2 + y1 + z1 >= 0) state++;
+		if (x1 + y2 + z1 >= 0) state++;
+		if (x2 + y2 + z1 >= 0) state++;
+		if (x1 + y1 + z2 >= 0) state++;
+		if (x2 + y1 + z2 >= 0) state++;
+		if (x1 + y2 + z2 >= 0) state++;
+		if (x2 + y2 + z2 >= 0) state++;
+		
+		if (state > 0) {
+			if (state == 8) side++;
+			x1 = frustum.bottomX * minX + frustum.bottomW;
+			x2 = frustum.bottomX * maxX + frustum.bottomW;
+			y1 = frustum.bottomY * minY;
+			y2 = frustum.bottomY * maxY;
+			z1 = frustum.bottomZ * minZ;
+			z2 = frustum.bottomZ * maxZ;
+			state = 0;
+			if (x1 + y1 + z1 >= 0) state++;
+			if (x2 + y1 + z1 >= 0) state++;
+			if (x1 + y2 + z1 >= 0) state++;
+			if (x2 + y2 + z1 >= 0) state++;
+			if (x1 + y1 + z2 >= 0) state++;
+			if (x2 + y1 + z2 >= 0) state++;
+			if (x1 + y2 + z2 >= 0) state++;
+			if (x2 + y2 + z2 >= 0) state++;
+			
+			if (state > 0) {
+				if (state == 8) side++;
+				x1 = frustum.farX * minX + frustum.farW;
+				x2 = frustum.farX * maxX + frustum.farW;
+				y1 = frustum.farY * minY;
+				y2 = frustum.farY * maxY;
+				z1 = frustum.farZ * minZ;
+				z2 = frustum.farZ * maxZ;
+				state = 0;
+				if (x1 + y1 + z1 >= 0) state++;
+				if (x2 + y1 + z1 >= 0) state++;
+				if (x1 + y2 + z1 >= 0) state++;
+				if (x2 + y2 + z1 >= 0) state++;
+				if (x1 + y1 + z2 >= 0) state++;
+				if (x2 + y1 + z2 >= 0) state++;
+				if (x1 + y2 + z2 >= 0) state++;
+				if (x2 + y2 + z2 >= 0) state++;
+				
+				if (state > 0) {
+					if (state == 8) side++;
+					x1 = frustum.nearX * minX + frustum.nearW;
+					x2 = frustum.nearX * maxX + frustum.nearW;
+					y1 = frustum.nearY * minY;
+					y2 = frustum.nearY * maxY;
+					z1 = frustum.nearZ * minZ;
+					z2 = frustum.nearZ * maxZ;
+					state = 0;
+					if (x1 + y1 + z1 >= 0) state++;
+					if (x2 + y1 + z1 >= 0) state++;
+					if (x1 + y2 + z1 >= 0) state++;
+					if (x2 + y2 + z1 >= 0) state++;
+					if (x1 + y1 + z2 >= 0) state++;
+					if (x2 + y1 + z2 >= 0) state++;
+					if (x1 + y2 + z2 >= 0) state++;
+					if (x2 + y2 + z2 >= 0) state++;
+					if (state == 8) side++;
+				}
+			}
+		}
+	}
+}
+
+if (state > 0) {
+	if (side == 6) {
+		state = 2;
+	} else {
+		state = 1;
+	}
+}
+
+//0=totally outside; 1=partially inside; 2=totally inside

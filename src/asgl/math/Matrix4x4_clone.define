@@ -1,0 +1,23 @@
+//params m:Matrix4x4
+//result opMatrix:Matrix4x4
+
+if (opMatrix == null) {
+	opMatrix = new Matrix4x4(m.m00, m.m01, m.m02, m.m03, m.m10, m.m11, m.m12, m.m13, m.m20, m.m21, m.m22, m.m23, m.m30, m.m31, m.m32, m.m33);
+} else {
+	opMatrix.m00 = m.m00;
+	opMatrix.m01 = m.m01;
+	opMatrix.m02 = m.m02;
+	opMatrix.m03 = m.m03;
+	opMatrix.m10 = m.m10;
+	opMatrix.m11 = m.m11;
+	opMatrix.m12 = m.m12;
+	opMatrix.m13 = m.m13;
+	opMatrix.m20 = m.m20;
+	opMatrix.m21 = m.m21;
+	opMatrix.m22 = m.m22;
+	opMatrix.m23 = m.m23;
+	opMatrix.m30 = m.m30;
+	opMatrix.m31 = m.m31;
+	opMatrix.m32 = m.m32;
+	opMatrix.m33 = m.m33;
+}

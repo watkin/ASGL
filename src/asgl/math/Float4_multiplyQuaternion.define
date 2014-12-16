@@ -1,0 +1,11 @@
+//params quat:Float4
+
+var w1:Number = f4.w * quat.w - f4.x * quat.x - f4.y * quat.y - f4.z * quat.z;
+var x1:Number = f4.w * quat.x + f4.x * quat.w + f4.y * quat.z - f4.z * quat.y;
+var y1:Number = f4.w * quat.y + f4.y * quat.w + f4.z * quat.x - f4.x * quat.z;
+var z1:Number = f4.w * quat.z + f4.z * quat.w + f4.x * quat.y - f4.y * quat.x;
+
+f4.x = x1;
+f4.y = y1;
+f4.z = z1;
+f4.w = w1;

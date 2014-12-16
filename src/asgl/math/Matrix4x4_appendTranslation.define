@@ -1,0 +1,17 @@
+//params m:Matrix, x:Number, y:Number, z:Number
+
+m.m00 += m.m03 * x;
+m.m01 += m.m03 * y;
+m.m02 += m.m03 * z;
+
+m.m10 += m.m13 * x;
+m.m11 += m.m13 * y;
+m.m12 += m.m13 * z;
+
+m.m20 += m.m23 * x;
+m.m21 += m.m23 * y;
+m.m22 += m.m23 * z;
+
+m.m30 += m.m33 * x;
+m.m31 += m.m33 * y;
+m.m32 += m.m33 * z;

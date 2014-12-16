@@ -1,0 +1,34 @@
+//params outVertex:DecalVertex, inVertex:DecalVertex, toVertex:DecalVertex, plane:Float4, planePoint:Float3
+
+var lineNrmX:Number = outVertex.x - inVertex.x;
+var lineNrmY:Number = outVertex.y - inVertex.y;
+var lineNrmZ:Number = outVertex.z - inVertex.z;
+var d:Number = Math.sqrt(lineNrmX * lineNrmX + lineNrmY * lineNrmY + lineNrmZ * lineNrmZ);
+lineNrmX /= d;
+lineNrmY /= d;
+lineNrmZ /= d;
+
+var k:Number = plane.x * lineNrmX + plane.y * lineNrmY + plane.z * lineNrmZ;
+var t:Number = -(plane.x * outVertex.x + plane.y * outVertex.y + plane.z * outVertex.z - plane.x * planePoint.x - plane.y * planePoint.y - plane.z * planePoint.z) / k;
+
+var ix:Number = outVertex.x + lineNrmX * t;
+var iy:Number = outVertex.y + lineNrmY * t;
+var iz:Number = outVertex.z + lineNrmZ * t;
+
+var dx0:Number = outVertex.x - ix;
+var dy0:Number = outVertex.y - iy;
+var dz0:Number = outVertex.z - iz;
+
+var radio:Number = Math.sqrt(dx0 * dx0 + dy0 * dy0 + dz0 * dz0) / d;
+
+var nx:Number = outVertex.nx + radio * (inVertex.nx - outVertex.nx);
+var ny:Number = outVertex.ny + radio * (inVertex.ny - outVertex.ny);
+var nz:Number = outVertex.nz + radio * (inVertex.nz - outVertex.nz);
+
+toVertex.x = ix;
+toVertex.y = iy;
+toVertex.z = iz;
+
+toVertex.nx = nx;
+toVertex.ny = ny;
+toVertex.nz = nz;

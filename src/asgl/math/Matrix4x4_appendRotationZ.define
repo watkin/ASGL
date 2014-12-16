@@ -1,0 +1,16 @@
+//params m:Matrix4x4, radian:Number
+
+var sin:Number = Math.sin(radian);
+var cos:Number = Math.cos(radian);
+var n00:Number = m.m00;
+var n10:Number = m.m10;
+var n20:Number = m.m20;
+var n30:Number = m.m30;
+m.m00 = n00 * cos - m.m01 * sin;
+m.m10 = n10 * cos - m.m11 * sin;
+m.m20 = n20 * cos - m.m21 * sin;
+m.m01 = n00 * sin + m.m01 * cos;
+m.m11 = n10 * sin + m.m11 * cos;
+m.m21 = n20 * sin + m.m21 * cos;
+m.m30 = n30 * cos - m.m31 * sin;
+m.m31 = n30 * sin + m.m31 * cos;

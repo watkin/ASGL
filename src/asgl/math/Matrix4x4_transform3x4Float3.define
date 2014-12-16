@@ -1,0 +1,14 @@
+//params m:Matrix4x4, f3:Float3, [opFloat3:Float3]
+//result opFloat3:Float3
+
+if (opFloat3 == null) {
+	opFloat3 = new Float3(f3.x * m.m00 + f3.y * m.m10 + f3.z * m.m20 + m.m30, f3.x * m.m01 + f3.y * m.m11 + f3.z * m.m21 + m.m31, f3.x * m.m02 + f3.y * m.m12 + f3.z * m.m22 + m.m32);
+} else {
+	var x:Number = f3.x * m.m00 + f3.y * m.m10 + f3.z * m.m20 + m.m30;
+	var y:Number = f3.x * m.m01 + f3.y * m.m11 + f3.z * m.m21 + m.m31;
+	var z:Number = f3.x * m.m02 + f3.y * m.m12 + f3.z * m.m22 + m.m32;
+	
+	opFloat3.x = x;
+	opFloat3.y = y;
+	opFloat3.z = z;
+}

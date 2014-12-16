@@ -1,0 +1,19 @@
+if(_worldRotationUpdate == 2) {
+	_worldRotationUpdate = 0;
+	
+	if (_parent == null) {
+		_worldRotation.x = _localRotation.x;
+		_worldRotation.y = _localRotation.y;
+		_worldRotation.z = _localRotation.z;
+		_worldRotation.w = _localRotation.w;
+	} else {
+		if (_parent._worldRotationUpdate == 2) _parent.updateWorldRotation();
+		
+		_worldRotation.x = _parent._worldRotation.x;
+		_worldRotation.y = _parent._worldRotation.y;
+		_worldRotation.z = _parent._worldRotation.z;
+		_worldRotation.w = _parent._worldRotation.w;
+		
+		_worldRotation.multiplyQuaternion(_localRotation);
+	}
+}

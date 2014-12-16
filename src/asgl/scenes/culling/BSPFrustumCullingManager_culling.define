@@ -1,0 +1,14 @@
+var frontNode:BSPNode = node.frontNode;
+var backNode:BSPNode = node.backNode;
+
+var co:* = node.cullingObject;//ICullingObject
+
+var nx:Number = node.normalX;
+var ny:Number = node.normalY;
+var nz:Number = node.normalZ;
+
+var angle:Number = Math.acos(_cameraDirX * nx + _cameraDirY * ny + _cameraDirZ * nz);
+
+var x:Number = _cameraPosX-node.posX;
+var y:Number = _cameraPosY-node.posY;
+var z:Number = _cameraPosZ-node.posZ;

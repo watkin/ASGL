@@ -1,0 +1,9 @@
+//params f3:Float3
+
+var d:Number = f3.x * f3.x + f3.y * f3.y + f3.z * f3.z;
+if (d != 1) {
+	d = Math.sqrt(d);
+	f3.x /= d;
+	f3.y /= d;
+	f3.z /= d;
+}

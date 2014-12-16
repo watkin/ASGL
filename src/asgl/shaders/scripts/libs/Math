@@ -1,0 +1,342 @@
+#name Math;
+
+#define E() {
+	2.71828182845905
+}
+
+#define LOG2E() {
+	1.442695040888963387
+}
+
+#define LOG10E() {
+	0.4342944819032518
+}
+
+#define LOGE2() {
+	0.6931471805599453
+}
+
+#define LOGE10() {
+	2.302585092994046
+}
+
+#define PI() {
+	3.141592653589793
+}
+
+/*
+ PI * 2
+ */
+#define PI2() {
+	6.283185307179596
+}
+
+/*
+ PI * 0.5
+ */
+#define PI_2() {
+	1.570796326794895
+}
+
+/*
+ 1 / sqrt(2)
+ */
+#define SQRT1_2() {
+	0.7071067811865476
+}
+
+#define SQRT2() {
+	1.4142135623730951
+}
+
+#define ACOS(type, x) {
+	type negate = x < 0;
+	x = abs(x);
+	type ret = 0.0742610 - 0.0187293 * x;
+	ret *= x;
+	ret -= 0.2121144;
+	ret *= x;
+	ret += 1.5707288;
+	ret *= sqrt(1 - x);
+	ret = ret - (negate + negate) * ret;
+	return negate * PI + ret;
+}
+float acos(float x) {
+	ACOS(float, x)
+}
+float2 acos(float2 x) {
+	ACOS(float2, x)
+}
+float3 acos(float3 x) {
+	ACOS(float3, x)
+}
+float4 acos(float4 x) {
+	ACOS(float4, x)
+}
+
+#define ASIN(type, x) {
+	type negate = x < 0;
+	x = abs(x);
+	type ret = -0.0187293 * x;
+	ret += 0.0742610;
+	ret *= x;
+	ret -= 0.2121144;
+	ret *= x;
+	ret += 1.5707288;
+	ret = PI_2 - sqrt(1 - x) * ret;
+	return ret - (negate + negate) * ret;
+}
+float asin(float x) {
+	ASIN(float, x)
+}
+float2 asin(float2 x) {
+	ASIN(float2, x)
+}
+float3 asin(float3 x) {
+	ASIN(float3, x)
+}
+float4 asin(float4 x) {
+	ASIN(float4, x)
+}
+
+float atan(float x) {
+	return atan2(x, 1);
+}
+float2 atan(float2 x) {
+	return atan2(x, 1;
+}
+float3 atan(float3 x) {
+	return atan2(x, 1);
+}
+float4 atan(float4 x) {
+	return atan2(x, 1);
+}
+
+#define ATAN2(type, y, x) {
+	type x2 = abs(x);
+	type y2 = abs(y);
+	type t2 = min(x2, y2) / max(x2, y2);
+	type t1 = t2 * t2;
+	type t0 = (0.057477314 - 0.013480470 * t1) * t1 - 0.121239071;
+	t0 = t0 * t1 + 0.195635925;
+	t0 = t0 * t1 - 0.332994597;
+	t0 = t0 * t1 + 0.999995630;
+	t2 *= t0;
+	
+	t2 = if(y2 > x2, PI_2 - t2, t2);
+	t2 = if(x < 0, PI - t2, t2);
+	t2 = if(y < 0, -t2, t2);
+	
+	return t2;
+}
+float atan2(float y, float x) {
+	ATAN2(float, y, x)
+}
+float2 atan2(float2 y, float2 x) {
+	ATAN2(float2, y, x)
+}
+float3 atan2(float3 y, float3 x) {
+	ATAN2(float3, y, x)
+}
+float4 atan2(float4 y, float4 x) {
+	ATAN2(float4, y, x)
+}
+
+#define CEIL(x) {
+	return -floor(-x);
+}
+float ceil(float x) {
+	CEIL(x)
+}
+float2 ceil(float2 x) {
+	CEIL(x)
+}
+float3 ceil(float3 x) {
+	CEIL(x)
+}
+float4 ceil(float4 x) {
+	CEIL(x)
+}
+
+/*
+ Returns x clamped to the range [a,b] as follows:
+ 1) Returns a if x is less than a; else
+ 2) Returns b if x is greater than b; else
+ 3) Returns x otherwise.
+*/
+#define CLAMP(x, a, b) {
+	return max(a, min(b, x));
+}
+float clamp(float x, float a, float b) {
+	CLAMP(x, a, b)
+}
+float2 clamp(float2 x, float2 a, float2 b) {
+	CLAMP(x, a, b)
+}
+float3 clamp(float3 x, float3 a, float3 b) {
+	CLAMP(x, a, b)
+}
+float4 clamp(float4 x, float4 a, float4 b) {
+	CLAMP(x, a, b)
+}
+
+#define DEGREES(a) {
+	return 57.29577951 * a;
+}
+float degrees(float a) {
+	DEGREES(a)
+}
+float2 degrees(float2 a) {
+	DEGREES(a)
+}
+float3 degrees(float3 a) {
+	DEGREES(a)
+}
+float4 degrees(float4 a) {
+	DEGREES(a)
+}
+
+/*
+ returns the base-e exponential of scalars and vectors
+*/
+#define EXP(a) {
+	return pow(E, a);
+}
+float exp(float a) {
+	EXP(a)
+}
+float2 exp(float2 a) {
+	EXP(a)
+}
+float3 exp(float3 a) {
+	EXP(a)
+}
+float4 exp(float4 a) {
+	EXP(a)
+}
+
+#define FLOOR(a) {
+	return a - frac(a);
+}
+float floor(float a) {
+	FLOOR(a)
+}
+float2 floor(float2 a) {
+	FLOOR(a)
+}
+float3 floor(float3 a) {
+	FLOOR(a)
+}
+float4 floor(float4 a) {
+	FLOOR(a)
+}
+
+/*
+ returns the remainder of x/y with the same sign as x
+*/
+#define FMOD(type, a, b) {
+	type c = frac(abs(a / b)) * abs(b);
+	return ((a >= 0) * 2 - 1) * c;
+}
+float fmod(float a, float b) {
+	FMOD(float, a, b);
+}
+float2 fmod(float2 a, float2 b) {
+	FMOD(float2, a, b);
+}
+float3 fmod(float3 a, float3 b) {
+	FMOD(float3, a, b);
+}
+float4 fmod(float4 a, float4 b) {
+	FMOD(float4, a, b);
+}
+
+#define LERP(a, b, w) {
+	return a + w * (b - a);
+}
+float lerp(float a, float b, float w) {
+	LERP(a, b, w)
+}
+float2 lerp(float2 a, float2 b, float2 w) {
+	LERP(a, b, w)
+}
+float3 lerp(float3 a, float3 b, float3 w) {
+	LERP(a, b, w)
+}
+float4 lerp(float4 a, float4 b, float4 w) {
+	LERP(a, b, w)
+}
+
+#define RADIANS(a) {
+	return 0.017453292 * a;
+}
+float radians(float a) {
+	RADIANS(a);
+}
+float2 radians(float2 a) {
+	RADIANS(a);
+}
+float3 radians(float3 a) {
+	RADIANS(a);
+}
+float4 radians(float4 a) {
+	RADIANS(a);
+}
+
+#definee ROUND(a) {
+	return ((a >= 0) / 0.5 - 1) * floor(abs(a) + 0.5);
+}
+float round(float a) {
+	ROUND(a)
+}
+float2 round(float2 a) {
+	ROUND(a)
+}
+float3 round(float3 a) {
+	ROUND(a)
+}
+float4 round(float4 a) {
+	ROUND(a)
+}
+
+/*
+ interpolate smoothly between two input values based on a third.
+ 
+ Interpolates smoothly from 0 to 1 based on x compared to a and b.
+ 	1) Returns 0 if x < a < b or x > a > b
+ 	1) Returns 1 if x < b < a or x > b > a
+ 	3) Returns a value in the range [0,1] for the domain [a,b].
+ The slope of smoothstep(a,b,a) and smoothstep(a,b,b) is zero.
+*/
+#define SMOOTHSTEP(type, a, b, x) {
+	type t = saturate((x - a) / (b - a));
+	return t * t * (3 - t - t);
+}
+float smoothstep(float a, float b, float x) {
+	SMOOTHSTEP(float, a, b, x)
+}
+float2 smoothstep(float2 a, float2 b, float2 x) {
+	SMOOTHSTEP(float, a, b, x)
+}
+float3 smoothstep(float3 a, float3 b, float3 x) {
+	SMOOTHSTEP(float, a, b, x)
+}
+float4 smoothstep(float4 a, float4 b, float4 x) {
+	SMOOTHSTEP(float4, a, b, x)
+}
+
+#define TAN(a) {
+	return sin(a) / cos(a);
+}
+float tan(float a) {
+	TAN(a)
+}
+float2 tan(float2 a) {
+	TAN(a)
+}
+float3 tan(float3 a) {
+	TAN(a)
+}
+float4 tan(float4 a) {
+	TAN(a)
+}

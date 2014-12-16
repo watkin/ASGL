@@ -1,0 +1,6 @@
+//params m:Matrix, y:Number
+
+m.m30 += y * m.m10;
+m.m31 += y * m.m11;
+m.m32 += y * m.m12;
+m.m33 += y * m.m13;

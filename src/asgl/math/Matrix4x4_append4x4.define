@@ -1,0 +1,38 @@
+//params m:Matrix4x4, lm:Matrix4x4
+
+var n00:Number = m.m00 * lm.m00 + m.m01 * lm.m10 + m.m02 * lm.m20 + m.m03 * lm.m30;
+var n01:Number = m.m00 * lm.m01 + m.m01 * lm.m11 + m.m02 * lm.m21 + m.m03 * lm.m31;
+var n02:Number = m.m00 * lm.m02 + m.m01 * lm.m12 + m.m02 * lm.m22 + m.m03 * lm.m32;
+var n03:Number = m.m00 * lm.m03 + m.m01 * lm.m13 + m.m02 * lm.m23 + m.m03 * lm.m33;
+
+var n10:Number = m.m10 * lm.m00 + m.m11 * lm.m10 + m.m12 * lm.m20 + m.m13 * lm.m30;
+var n11:Number = m.m10 * lm.m01 + m.m11 * lm.m11 + m.m12 * lm.m21 + m.m13 * lm.m31;
+var n12:Number = m.m10 * lm.m02 + m.m11 * lm.m12 + m.m12 * lm.m22 + m.m13 * lm.m32;
+var n13:Number = m.m10 * lm.m03 + m.m11 * lm.m13 + m.m12 * lm.m23 + m.m13 * lm.m33;
+
+var n20:Number = m.m20 * lm.m00 + m.m21 * lm.m10 + m.m22 * lm.m20 + m.m23 * lm.m30;
+var n21:Number = m.m20 * lm.m01 + m.m21 * lm.m11 + m.m22 * lm.m21 + m.m23 * lm.m31;
+var n22:Number = m.m20 * lm.m02 + m.m21 * lm.m12 + m.m22 * lm.m22 + m.m23 * lm.m32;
+var n23:Number = m.m20 * lm.m03 + m.m21 * lm.m13 + m.m22 * lm.m23 + m.m23 * lm.m33;
+
+var n30:Number = m.m30 * lm.m00 + m.m31 * lm.m10 + m.m32 * lm.m20 + m.m33 * lm.m30;
+var n31:Number = m.m30 * lm.m01 + m.m31 * lm.m11 + m.m32 * lm.m21 + m.m33 * lm.m31;
+var n32:Number = m.m30 * lm.m02 + m.m31 * lm.m12 + m.m32 * lm.m22 + m.m33 * lm.m32;
+var n33:Number = m.m30 * lm.m03 + m.m31 * lm.m13 + m.m32 * lm.m23 + m.m33 * lm.m33;
+
+m.m00 = n00;
+m.m01 = n01;
+m.m02 = n02;
+m.m03 = n03;
+m.m10 = n10;
+m.m11 = n11;
+m.m12 = n12;
+m.m13 = n13;
+m.m20 = n20;
+m.m21 = n21;
+m.m22 = n22;
+m.m23 = n23;
+m.m30 = n30;
+m.m31 = n31;
+m.m32 = n32;
+m.m33 = n33;

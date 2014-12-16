@@ -1,0 +1,16 @@
+//params m:Matrix4x4, sx:Number, sy:Number, sz:Number
+
+m.m00 *= sx;
+m.m01 *= sx;
+m.m02 *= sx;
+m.m03 *= sx;
+
+m.m10 *= sy;
+m.m11 *= sy;
+m.m12 *= sy;
+m.m13 *= sy;
+
+m.m20 *= sz;
+m.m21 *= sz;
+m.m22 *= sz;
+m.m23 *= sz;

@@ -1,0 +1,21 @@
+//param df:DecalVertex
+
+df.mask = 0;
+	
+if (_frustum.rightX * df.x + _frustum.rightY * df.y + _frustum.rightZ * df.z + _frustum.rightW < 0) {
+	df.mask = 1;
+} else if (_frustum.leftX * df.x + _frustum.leftY * df.y + _frustum.leftZ * df.z + _frustum.leftW < 0) {
+	df.mask = 2;
+}
+
+if (_frustum.topX * df.x + _frustum.topY * df.y + _frustum.topZ * df.z + _frustum.topW < 0) {
+	df.mask |= 4;
+} else if (_frustum.bottomX * df.x + _frustum.bottomY * df.y + _frustum.bottomZ * df.z + _frustum.bottomW < 0) {
+	df.mask |= 8;
+}
+
+if (_frustum.farX * df.x + _frustum.farY * df.y + _frustum.farZ * df.z + _frustum.farW < 0) {
+	df.mask |= 16;
+} else if (_frustum.nearX * df.x + _frustum.nearY * df.y + _frustum.nearZ * df.z + _frustum.nearW < 0) {
+	df.mask |= 32;
+}

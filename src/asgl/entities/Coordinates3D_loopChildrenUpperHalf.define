@@ -1,0 +1,18 @@
+var looping:Boolean = _isLooping;
+_isLooping = true;
+
+for (var i:int = 0; i < _delayNumChildren; i++) {
+	var child:Coordinates3D = _delayChildren[i];
+	if (child == null) {
+		for (var j:int = _delayNumChildren - 1; j > i; j--) {
+			child = _delayChildren[--_delayNumChildren];
+			if (child != null) break;
+		}
+		
+		if (child == null) {
+			break;
+		} else {
+			child._containerIndex = i;
+			_delayChildren[i] = child;
+		}
+	}

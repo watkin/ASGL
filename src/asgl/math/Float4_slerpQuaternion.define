@@ -1,0 +1,40 @@
+//params q0:Float4, q1:Float4, t:Number, [opFloat4:Float4]
+//result opFloat4
+
+if (t<0) {
+	t = 0;
+} else if (t>1) {
+	t = 1;
+}
+var w1:Number = q1.w;
+var x1:Number = q1.x;
+var y1:Number = q1.y;
+var z1:Number = q1.z;
+var cosOmega:Number = q0.w * w1 + q0.x * x1 + q0.y * y1 + q0.z * z1;
+if (cosOmega < 0) {
+	w1 = -w1;
+	x1 = -x1;
+	y1 = -y1;
+	z1 = -z1;
+	cosOmega = -cosOmega;
+}
+var k0:Number;
+var k1:Number;
+if (cosOmega > 0.9999) {
+	k0 = 1 - t;
+	k1 = t;
+} else {
+	var omega:Number = Math.acos(cosOmega);
+	var sinOmega:Number = Math.sin(omega);
+	k0 = Math.sin((1 - t) * omega) / sinOmega;
+	k1 = Math.sin(t * omega) / sinOmega;
+}
+
+if (opFloat4 == null) {
+	opFloat4 = new Float4(q0.x * k0 + x1 * k1, q0.y * k0 + y1 * k1, q0.z * k0 + z1 * k1, q0.w * k0 + w1 * k1);
+} else {
+	opFloat4.x = q0.x * k0 + x1 * k1;
+	opFloat4.y = q0.y * k0 + y1 * k1;
+	opFloat4.z = q0.z * k0 + z1 * k1;
+	opFloat4.w = q0.w * k0 + w1 * k1;
+}

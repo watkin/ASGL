@@ -1,0 +1,79 @@
+//params eye:Float3, at:Float3, up:FLoat3, [opMatrix:Matrix4x4]
+//result opMatrix:Matrix4x4
+
+var eyeX:Number = eye.x;
+var eyeY:Number = eye.y;
+var eyeZ:Number = eye.z;
+
+var upX:Number = up.x;
+var upY:Number = up.y;
+var upZ:Number = up.z;
+
+var axisZ_X:Number = at.x - eyeX;
+var axisZ_Y:Number = at.y - eyeY;
+var axisZ_Z:Number = at.z - eyeZ;
+
+var d:Number = axisZ_X * axisZ_X + axisZ_Y * axisZ_Y + axisZ_Z * axisZ_Z;
+if (d != 1) {
+	d = Math.sqrt(d);
+	axisZ_X /= d;
+	axisZ_Y /= d;
+	axisZ_Z /= d;
+}
+
+if (axisZ_X == -upX && axisZ_Y == -upY && axisZ_Z == -upZ) {
+	upX += 1;
+	upY += 2;
+	upZ += 3;
+}
+
+var axisX_X:Number = upY * axisZ_Z - upZ * axisZ_Y;
+var axisX_Y:Number = upZ * axisZ_X - upX * axisZ_Z;
+var axisX_Z:Number = upX * axisZ_Y - upY * axisZ_X;
+
+d = axisX_X * axisX_X + axisX_Y * axisX_Y + axisX_Z * axisX_Z;
+if (d != 1) {
+	d = Math.sqrt(d);
+	axisX_X /= d;
+	axisX_Y /= d;
+	axisX_Z /= d;
+}
+
+var axisY_X:Number = axisZ_Y * axisX_Z - axisZ_Z * axisX_Y;
+var axisY_Y:Number = axisZ_Z * axisX_X - axisZ_X * axisX_Z;
+var axisY_Z:Number = axisZ_X * axisX_Y - axisZ_Y * axisX_X;
+
+if (opMatrix == null) {
+	opMatrix = new Matrix4x4(axisX_X, axisX_Y, axisX_Z, 0,
+		axisY_X, axisY_Y, axisY_Z, 0,
+		axisZ_X, axisZ_Y, axisZ_Z, 0,
+		eyeX, eyeY, eyeZ);
+//		-(axisX_X*eyeX+axisX_Y*eyeY+axisX_Z*eyeZ), -(axisY_X*eyeX+axisY_Y*eyeY+axisY_Z*eyeZ), -(axisZ_X*eyeX+axisZ_Y*eyeY+axisZ_Z*eyeZ), 1);
+//	opMatrix = new Matrix4x4(axisX_X, axisY_X, axisZ_X, axisX_X*eyeX+axisX_Y*eyeY+axisX_Z*eyeZ,
+//		axisX_Y, axisY_Y, axisZ_Y, axisY_X*eyeX+axisY_Y*eyeY+axisY_Z*eyeZ,
+//		axisX_Z, axisY_Z, axisZ_Z, axisZ_X*eyeX+axisZ_Y*eyeY+axisZ_Z*eyeZ,
+//		0, 0, 0, 1);
+} else {
+	opMatrix.m00 = axisX_X;
+	opMatrix.m01 = axisX_Y;
+	opMatrix.m02 = axisX_Z;
+	opMatrix.m03 = 0;
+	
+	opMatrix.m10 = axisY_X;
+	opMatrix.m11 = axisY_Y;
+	opMatrix.m12 = axisY_Z;
+	opMatrix.m13 = 0;
+	
+	opMatrix.m20 = axisZ_X;
+	opMatrix.m21 = axisZ_Y;
+	opMatrix.m22 = axisZ_Z;
+	opMatrix.m23 = 0;
+	
+	opMatrix.m30 = eyeX;
+	opMatrix.m31 = eyeY;
+	opMatrix.m32 = eyeZ;
+//	opMatrix.m30 = -(axisX_X*eyeX+axisX_Y*eyeY+axisX_Z*eyeZ);
+//	opMatrix.m31 = -(axisY_X*eyeX+axisY_Y*eyeY+axisY_Z*eyeZ);
+//	opMatrix.m32 = -(axisZ_X*eyeX+axisZ_Y*eyeY+axisZ_Z*eyeZ);
+	opMatrix.m33 = 1;
+}

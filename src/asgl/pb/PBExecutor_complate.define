@@ -1,0 +1,7 @@
+//params target:*, offsetTargetLength:uint, completeHandler:Function
+
+if (offsetTargetLength>0) {
+	if (!(target is BitmapData)) target.length -= offsetTargetLength;
+}
+
+if (completeHandler != null) completeHandler(target);

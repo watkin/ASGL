@@ -1,0 +1,86 @@
+#name Geom;
+
+/*
+ @nh : dot(normal, normalize(lightingDir + viewDir)).
+ @m2 : (roughness factor)^2, default recommend (0.5)^2.
+*/
+float beckmann(float nh, float m2) {
+	float nh2 = nh * nh;
+	return exp((nh2 - 1) / (m2 * nh2)) / (m2 * nh2 * nh2);
+}
+
+float3 binormal(float3 normal, float3 tangent) {
+	return cross(normal, tangent);
+}
+
+float3 m33InverseTBN(float3 v, float3 tangent, float3 normal) {
+	return m33(v, tangent, binormal(normal, tangent), normal);
+}
+float3 m33InverseTBN(float3 v, float3 tangent, float3 binormal, float3 normal) {
+	return m33(v, tangent, binormal, normal);
+}
+
+#define DISTANCE(pt1, pt2) {
+	return length(pt2 - pt1);
+}
+float distance(float pt1, float pt2) {
+	return pt2 - pt1;
+}
+float distance(float2 pt1, float2 pt2) {
+	DISTANCE(pt1, pt2)
+}
+float distance(float3 pt1, float3 pt2) {
+	DISTANCE(pt1, pt2)
+}
+float distance(float4 pt1, float4 pt2) {
+	DISTANCE(pt1, pt2)
+}
+
+/*
+ @vh : dot(viewDir, normalize(lightingDir + viewDir)).
+ @f : fresnelReflectance, default recommend 1.
+*/
+float fresnel(float vh, float f) {
+	return f + (1 - f) * pow(1 - vh, 5);
+}
+
+#define LENGTH(v) {
+	return sqrt(dot(v, v));
+}
+float length(float v) {
+	return v;
+}
+float length(float2 v) {
+	LENGTH(v)
+}
+float length(float3 v) {
+	LENGTH(v)
+}
+float length(float4 v) {
+	LENGTH(v)
+}
+
+float2 projPosToTexcoord(float2 pos) {
+	float2 tc = (pos.xy + 1) * 0.5;
+	tc.y = 1 - tc.y;
+	return tc;
+}
+
+/*
+ @incidenceDir : vertexPos - lightingPos
+*/
+float3 reflect(float3 incidenceDir, float3 normal) {
+	float3 ni = dot(normal, incidenceDir);
+	return incidenceDir - (ni + ni) * normal;
+}
+
+/*
+ @incidenceDir : vertexPos - lightingPos
+ @eta : Ratio of indices of refraction at the surface interface
+*/
+float3 refract(float3 incidenceDir, float3 normal, float eta) {
+	float cosi = dot(-incidenceDir, n);
+	float cost2 = 1 - eta * eta * (1 - cosi * cosi);
+	float3 t = eta * incidenceDir + (eta * cosi - sqrt(abs(cost2))) * n;
+	return t * (cost2 > 0);
+}

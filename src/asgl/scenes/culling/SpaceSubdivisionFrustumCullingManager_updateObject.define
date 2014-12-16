@@ -1,0 +1,64 @@
+//params obj:*(ICullingObject), newNode:SpaceSubdivisionNode
+
+var parent:SpaceSubdivisionNode;
+var prev:SpaceSubdivisionNode;
+var next:SpaceSubdivisionNode;
+
+var id:uint = obj._instanceID;
+
+var oldNode:SpaceSubdivisionNode = _globalCullingObjectMap[id];
+if (oldNode == newNode) {
+	if (newNode.visible != obj._frustumCullingVisible) obj.setFrustumCullingVisible(newNode.visible);
+	return;
+} else if (oldNode != null) {
+	include 'SpaceSubdivisionFrustumCullingManager_removeObject.define';
+}
+
+newNode.currentNodeCullingObjectMap[id] = obj;
+_globalCullingObjectMap[id] = newNode;
+
+newNode.totalEntities++;
+if (newNode.isUnused) {
+	newNode.isUnused = false;
+	parent = newNode.parent;
+	while (parent != null) {
+		prev = newNode.prev;
+		next = newNode.next;
+		
+		if (prev == null) {
+			if (next == null) {
+				parent.unusedFirstChild = null;
+			} else {
+				parent.unusedFirstChild = next;
+				newNode.next = null;
+				next.prev = null;
+			}
+		} else {
+			newNode.prev = null;
+			if (next == null) {
+				prev.next = null;
+			} else {
+				newNode.next = null;
+				prev.next = next;
+				next.prev = prev;
+			}
+		}
+		
+		next = parent.firstChild;
+		parent.firstChild = newNode;
+		if (next != null) {
+			newNode.next = next;
+			next.prev = newNode;
+		}
+		
+		if (parent.isUnused) {
+			parent.isUnused = false;
+			newNode = parent;
+			parent = newNode.parent;
+		} else {
+			break;
+		}
+	}
+}
+
+if (newNode.visible != obj._frustumCullingVisible) obj.setFrustumCullingVisible(newNode.visible);

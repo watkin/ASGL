@@ -1,0 +1,69 @@
+#name Lighting;
+
+include Geom;
+include Math;
+
+/*
+ @lightingDir : dir of vertexPos to lighting, lightPos - vertexPos.
+*/
+float diffuseFactor(float3 normal, float3 lightingDir) {
+	return max(dot(normal, lightingDir), 0);
+}
+
+/*
+ @viewDir : viewPos - vertexPos.
+ @lightingDir : lightPos - vertexPos.
+ @shininess : default recommend 32.
+*/
+float phoneSpecularFactor(float3 normal, float3 lightingDir, float3 viewDir, float diffuseFactor, float shininess) {
+	float df2 = diffuseFactor * diffuseFactor;
+	float3 r = normalize((df2 + df2) * normal - lightingDir);
+	return pow(max(dot(viewDir, r), 0), shininess);
+}
+
+/*
+ @viewDir : viewPos - vertexPos.
+ @lightingDir : lightPos - vertexPos.
+ @shininess : default recommend 32.
+*/
+float bankBRDFSpecularFactor(float3 normal, float3 lightingDir, float3 viewDir, float shininess) {
+	float3 t = normalize(cross(normal, viewDir));
+	float a = dot(lightingDir, t);
+	float b = dot(viewDir, t);
+	float c = sqrt(1 - a * a) * sqrt(1 - b * b) - a * b;
+	return pow(c, shininess) * max(dot(lightingDir, normal), 0);
+}
+
+/*
+ @viewDir : viewPos - vertexPos.
+ @lightingDir : lightPos - vertexPos.
+ @shininess : default recommend 32.
+*/
+float blinnPhoneSpecularFactor(float3 normal, float3 lightingDir, float3 viewDir, float shininess) {
+	float3 h = normalize(lightingDir + viewDir);
+	return pow(max(dot(normal, h), 0), shininess);
+}
+
+/*
+ @viewDir : viewPos - vertexPos.
+ @lightingDir : lightPos - vertexPos.
+ @m2 : (roughness factor)^2, default recommend (0.5)^2.
+ @f : fresnelReflectance, default recommend 1.
+*/
+float cookTorranceSpecularFactor(float3 normal, float3 lightingDir, float3 viewDir, float diffuseFactor, float m2, float f) {
+	float3 h = normalize(lightingDir + viewDir);
+	float nv = dot(normal, viewDir);
+	float nh = dot(normal, h);
+	float vh = dot(viewDir, h);
+	float temp = (nh + nh) / vh;
+	float geometric = min(1, min(temp * nv, temp * diffuseFactor));
+	return (fresnel(vh, f) * geometric * beckmann(nh, m2)) / (nv * diffuseFactor);
+}
+
+/*
+ @viewDir : viewPos - vertexPos.
+ @rimPower : default recommend 3 to 5.
+*/
+float rimLightingFactor(float3 normal, float3 viewDir, float rimPower) {
+	return pow(1 - saturate(dot(viewDir, normal)), rimPower);
+}

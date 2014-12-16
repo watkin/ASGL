@@ -1,0 +1,10 @@
+//params axis:Float3, radian:Number, opFloat4:Float4
+
+if (opFloat4 == null) opFloat4 = new Float4();
+
+radian *= 0.5;
+var s:Number = Math.sin(radian);
+opFloat4.x = -axis.x * s;
+opFloat4.y = -axis.y * s;
+opFloat4.z = -axis.z * s;
+opFloat4.w = Math.cos(radian);

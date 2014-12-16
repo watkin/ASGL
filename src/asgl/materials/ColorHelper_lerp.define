@@ -1,0 +1,29 @@
+//params c1:uint, c2:uint, f:Number
+//return blendColor:uint
+
+var a1:int = c1 >> 24 & 0xFF;
+var r1:int = c1 >> 16 & 0xFF;
+var g1:int = c1 >> 8 & 0xFF;
+var b1:int = c1 & 0xFF;
+
+var a2:int = c2 >> 24 & 0xFF;
+var r2:int = c2 >> 16 & 0xFF;
+var g2:int = c2 >> 8 & 0xFF;
+var b2:int = c2 & 0xFF;
+
+a2 -= a1;
+r2 -= r1;
+g2 -= g1;
+b2 -= b1;
+
+a2 *= f;
+r2 *= f;
+g2 *= f;
+b2 *= f;
+
+a2 += a1;
+r2 += r1;
+g2 += g1;
+b2 += b1;
+
+var blendColor:uint = (a2 << 24) | (r2 << 16) | (g2 << 8) | b2;

@@ -1,0 +1,9 @@
+_sendUpdate = false;
+
+var updateRotation:Boolean = _worldRotationUpdate > 0;
+
+include 'Coordinates3D_loopChildrenUpperHalf.define';
+child._parentUpdate(updateRotation);
+include 'Coordinates3D_loopChildrenBottomHalf.define';
+
+if (_worldRotationUpdate == 1) _worldRotationUpdate = 0;

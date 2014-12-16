@@ -1,0 +1,31 @@
+if (_localMatrixUpdate) {
+	_localMatrixUpdate = false;
+	
+	var x2:Number = _localRotation.x * 2;
+	var y2:Number = _localRotation.y * 2;
+	var z2:Number = _localRotation.z * 2;
+	var xx:Number = _localRotation.x * x2;
+	var xy:Number = _localRotation.x * y2;
+	var xz:Number = _localRotation.x * z2;
+	var yy:Number = _localRotation.y * y2;
+	var yz:Number = _localRotation.y * z2;
+	var zz:Number = _localRotation.z * z2;
+	var wx:Number = _localRotation.w * x2;
+	var wy:Number = _localRotation.w * y2;
+	var wz:Number = _localRotation.w * z2;
+	_localMatrix.m00 = (1 - yy - zz) * _localScale.x;
+	_localMatrix.m01 = (xy + wz) * _localScale.x;
+	_localMatrix.m02 = (xz - wy) * _localScale.x;
+	
+	_localMatrix.m10 = (xy - wz) * _localScale.y;
+	_localMatrix.m11 = (1 - xx - zz) * _localScale.y;
+	_localMatrix.m12 = (yz + wx) * _localScale.y;
+	
+	_localMatrix.m20 = (xz + wy) * _localScale.z;
+	_localMatrix.m21 = (yz - wx) * _localScale.z;
+	_localMatrix.m22 = (1 - xx - yy) * _localScale.z;
+	
+	//_localMatrix = _localRotation.getMatrixFromQuaternion(_localMatrix);
+	//_localMatrix.appendTranslation(_localPosition.x, _localPosition.y, _localPosition.z);
+	//_localMatrix.prependScale(_localScale.x, _localScale.y, _localScale.z);
+}

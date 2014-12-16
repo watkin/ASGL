@@ -1,0 +1,70 @@
+//params m:Matrix4x4
+//result success:Boolean
+
+var tmp0:Number = m.m22 * m.m33;
+var tmp1:Number = m.m32 * m.m23;
+var tmp2:Number = m.m12 * m.m33;
+var tmp3:Number = m.m32 * m.m13;
+var tmp4:Number = m.m12 * m.m23;
+var tmp5:Number = m.m22 * m.m13;
+var tmp6:Number = m.m02 * m.m33;
+var tmp7:Number = m.m32 * m.m03;
+var tmp8:Number = m.m02 * m.m23;
+var tmp9:Number = m.m22 * m.m03;
+var tmp10:Number = m.m02 * m.m13;
+var tmp11:Number = m.m12 * m.m03;
+
+var dst0:Number  = tmp0 * m.m11 + tmp3 * m.m21 + tmp4 * m.m31 - (tmp1 * m.m11 + tmp2 * m.m21 + tmp5 * m.m31);
+var dst1:Number  = tmp1 * m.m01 + tmp6 * m.m21 + tmp9 * m.m31 - (tmp0 * m.m01 + tmp7 * m.m21 + tmp8 * m.m31);
+var dst2:Number  = tmp2 * m.m01 + tmp7 * m.m11 + tmp10 * m.m31 - (tmp3 * m.m01 + tmp6 * m.m11 + tmp11 * m.m31);
+var dst3:Number  = tmp5 * m.m01 + tmp8 * m.m11 + tmp11 * m.m21 - (tmp4 * m.m01 + tmp9 * m.m11 + tmp10 * m.m21);
+var dst4:Number  = tmp1 * m.m10 + tmp2 * m.m20 + tmp5 * m.m30 - (tmp0 * m.m10 + tmp3 * m.m20 + tmp4 * m.m30);
+var dst5:Number  = tmp0 * m.m00 + tmp7 * m.m20 + tmp8 * m.m30 - (tmp1 * m.m00 + tmp6 * m.m20 + tmp9 * m.m30);
+var dst6:Number  = tmp3 * m.m00 + tmp6 * m.m10 + tmp11 * m.m30 - (tmp2 * m.m00 + tmp7 * m.m10 + tmp10 * m.m30);
+var dst7:Number  = tmp4 * m.m00 + tmp9 * m.m10 + tmp10 * m.m20 - (tmp5 * m.m00 + tmp8 * m.m10 + tmp11 * m.m20);
+
+tmp0  = m.m20 * m.m31;
+tmp1  = m.m30 * m.m21;
+tmp2  = m.m10 * m.m31;
+tmp3  = m.m30 * m.m11;
+tmp4  = m.m10 * m.m21;
+tmp5  = m.m20 * m.m11;
+tmp6  = m.m00 * m.m31;
+tmp7  = m.m30 * m.m01;
+tmp8  = m.m00 * m.m21;
+tmp9  = m.m20 * m.m01;
+tmp10 = m.m00 * m.m11;
+tmp11 = m.m10 * m.m01;
+
+var dst8:Number = tmp0 * m.m13+tmp3 * m.m23+tmp4 * m.m33 - (tmp1 * m.m13+tmp2 * m.m23+tmp5 * m.m33);
+var dst9:Number = tmp1 * m.m03+tmp6 * m.m23+tmp9 * m.m33 - (tmp0 * m.m03+tmp7 * m.m23+tmp8 * m.m33);
+var dst10:Number = tmp2 * m.m03+tmp7 * m.m13+tmp10 * m.m33 - (tmp3 * m.m03+tmp6 * m.m13+tmp11 * m.m33);
+var dst11:Number = tmp5 * m.m03+tmp8 * m.m13+tmp11 * m.m23 - (tmp4 * m.m03+tmp9 * m.m13+tmp10 * m.m23);
+var dst12:Number = tmp2 * m.m22+tmp5 * m.m32+tmp1 * m.m12 - (tmp4 * m.m32+tmp0 * m.m12+tmp3 * m.m22);
+var dst13:Number = tmp8 * m.m32+tmp0 * m.m02+tmp7 * m.m22 - (tmp6 * m.m22+tmp9 * m.m32+tmp1 * m.m02);
+var dst14:Number = tmp6 * m.m12+tmp11 * m.m32+tmp3 * m.m02 - (tmp10 * m.m32+tmp2 * m.m02+tmp7 * m.m12);
+var dst15:Number = tmp10 * m.m22+tmp4 * m.m02+tmp9 * m.m12 - (tmp8 * m.m12+tmp11 * m.m22+tmp5 * m.m02);
+
+var det:Number = m.m00 * dst0 + m.m10 * dst1 + m.m20 * dst2 + m.m30 * dst3;
+var success:Boolean = det != 0;
+
+if (success) {
+	det = 1 / det;
+	
+	m.m00 = dst0 * det;
+	m.m01 = dst1 * det;
+	m.m02 = dst2 * det;
+	m.m03 = dst3 * det;
+	m.m10 = dst4 * det;
+	m.m11 = dst5 * det;
+	m.m12 = dst6 * det;
+	m.m13 = dst7 * det;
+	m.m20 = dst8 * det;
+	m.m21 = dst9 * det;
+	m.m22 = dst10 * det;
+	m.m23 = dst11 * det;
+	m.m30 = dst12 * det;
+	m.m31 = dst13 * det;
+	m.m32 = dst14 * det;
+	m.m33 = dst15 * det;
+}

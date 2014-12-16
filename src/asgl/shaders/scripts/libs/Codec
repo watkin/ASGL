@@ -1,0 +1,134 @@
+#name Codec;
+
+include Math;
+
+//255, 1, 0, 1 / 255
+property Constants __encodeFloatToColor2 {name = "__encodeFloatToColor2"; length = 1; values = [255, 1, 0, 0.00392156862745098]}
+
+//255 * 255 * 255, 255 * 255, 255, 1, 0, 1/ 255, 1/ 255, 1/ 255
+property Constants __encodeFloatToColor4 {name = "__encodeFloatToColor4"; length = 2; values = [16581375, 65025, 255, 1, 0, 0.00392156862745098, 0.00392156862745098, 0.00392156862745098]}
+
+//1 / 255, 1
+property Constants __decodeFloatFromColor2 {name = "__decodeFloatFromColor2"; length = 1; values = [0.00392156862745098, 1, 0, 0]}
+
+//1 / (255 * 255 * 255), 1 / (255 * 255), 1 / 255, 1
+property Constants __decodeFloatFromColor4 {name = "__decodeFloatFromColor4"; length = 1; values = [0, 0.000015378700499807768, 0.00392156862745098, 1]}
+
+/*
+ @f : [0-1)
+*/
+float2 encodeFloatToColor2(float f) {
+	return encodeFloatToColor2(f, constant(__encodeFloatToColor2).xy, constant(__encodeFloatToColor2).zw);
+}
+float2 encodeFloatToColor2(float f, float2 encoder1, float2 encoder2) {
+	float2 color = frac(f * encoder1);
+	float2 tmp = color * encoder2;
+	color -= tmp;
+	return color;
+}
+
+float decodeFloatFromColor2(float2 color) {
+	return decodeFloatFromColor2(color, constant(__decodeFloatFromColor2).xy);
+}
+float decodeFloatFromColor2(float2 color, float2 decoder) {
+	return dot(color, decoder);
+}
+
+/*
+ @f : [0-1)
+*/
+float3 encodeFloatToColor3(float f) {
+	return encodeFloatToColor3(f, constant(__encodeFloatToColor4).yzw, constant(__encodeFloatToColor4, 1).xyz);
+}
+float3 encodeFloatToColor3(float f, float3 encoder1, float3 encoder2) {
+	float3 color = frac(f * encoder1);
+	float3 tmp = color * encoder2;
+	color -= tmp;
+	return color;
+}
+
+float decodeFloatFromColor3(float3 color) {
+	return decodeFloatFromColor3(color, constant(__decodeFloatFromColor4).yzw);
+}
+float decodeFloatFromColor3(float3 color, float3 decoder) {
+	return dot(color, decoder);
+}
+
+/*
+ @f : [0-1)
+*/
+float4 encodeFloatToColor4(float f) {
+	return encodeFloatToColor4(f, constant(__encodeFloatToColor4), constant(__encodeFloatToColor4, 1)));
+}
+float4 encodeFloatToColor4(float f, float4 encoder1, float4 encoder2) {
+	float4 color = frac(f * encoder1);
+	float4 tmp = color.xxyz * encoder2;
+	color -= tmp;
+	return color;
+}
+
+float decodeFloatFromColor4(float4 color) {
+	return decodeFloatFromColor4(color, constant(__decodeFloatFromColor4));
+}
+float decodeFloatFromColor4(float4 color, float4 deocder) {
+	return dot(color, deocder);
+}
+
+float2 encodeNormalToColor2(float3 normal) {
+	float2 color = (normal.xy + 1) / 2;
+	color.x *= (normal.z >= 0) * 2 - 1;
+	color.x = (color.x + 1) / 2;
+	return color;
+}
+
+float3 decodeNormalFromColor2(float2 color) {
+	float3 n;
+	n.xy = color * 2 - 1;
+	n.z = (n.x >= 0) * 2 - 1;
+	n.x = abs(n.x);
+	n.x = n.x * 2 - 1;
+	n.z *= sqrt(dot(n.xy, n.xy));
+	return n;
+}
+
+float3 decodeNromalFromFloat(float f) {
+	float3 n;
+	n.x = frac(f);
+	n.y = f - n.x;
+	n.x *= 10;
+	n.z *= 0.001;
+	n.y = frac(n.z);
+	n.z -= n.y;
+	n.z = 1 - n.z;
+	n.y *= 10;
+	n.xy = 1 - n.xy;
+	float2 a = n.xy * n.xy;
+	a.x += a.y;
+	a.x = 1 - a.x;
+	a.x = sqrt(a.x);
+	n.z *= a.x;
+	return n;
+}
+
+float3 encodeNormalToColor3(float3 normal) {
+	return (normal + 1) / 2;
+}
+
+float3 decodeNormalFromColor3(float3 color) {
+	return (color * 2) - 1;
+}
+
+/*
+ @maxRange : is unsigned integer
+*/
+float4 encodeRGBM(float3 rgb, float maxRange) {
+	float a = max(max(rgb.x, rgb.y), max(rgb.z, 0.000001));
+	return min(rgb / (min(a / maxRange, 1) * maxRange), 1);
+}
+
+/*
+ @maxRange : is unsigned integer
+*/
+float3 decodeRGBM(float4 rgbm, float maxRange) {
+	return rgbm.xyz * rgbm.w * maxRange;
+}

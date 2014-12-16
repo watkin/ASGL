@@ -1,0 +1,42 @@
+//params axis:Float3, radian:Number, [opMatrix:Matrix4x4]
+//result opMatrix;
+
+var axisX:Number = axis.x;
+var axisY:Number = axis.y;
+var axisZ:Number = axis.z;
+var sin:Number = Math.sin(radian);
+var cos:Number = Math.cos(radian);
+var cos1:Number = 1 - cos;
+var cos1x:Number = cos1 * axisX;
+var cos1xy:Number = cos1x * axisY;
+var cos1xz:Number = cos1x * axisZ;
+var cos1y:Number = cos1 * axisY;
+var cos1yz:Number = cos1y * axisZ;
+var xsin:Number = axisX * sin;
+var ysin:Number = axisY * sin;
+var zsin:Number = axisZ * sin;
+if (opMatrix == null) {
+	opMatrix = new Matrix4x4(cos + cos1x * axisX, cos1xy - zsin, cos1xz + ysin, 0,
+					   		 cos1xy + zsin, cos + cos1y * axisY, cos1yz - xsin, 0,
+					  		 cos1xz - ysin, cos1yz + xsin, cos + cos1 * axisZ * axisZ);
+} else {
+	opMatrix.m00 = cos + cos1x * axisX;
+	opMatrix.m01 = cos1xy - zsin;
+	opMatrix.m02 = cos1xz + ysin;
+	opMatrix.m03 = 0;
+	
+	opMatrix.m10 = cos1xy + zsin;
+	opMatrix.m11 = cos + cos1y * axisY;
+	opMatrix.m12 = cos1yz - xsin;
+	opMatrix.m13 = 0;
+	
+	opMatrix.m20 = cos1xz - ysin;
+	opMatrix.m21 = cos1yz + xsin;
+	opMatrix.m22 = cos + cos1 * axisZ * axisZ;
+	opMatrix.m23 = 0;
+	
+	opMatrix.m30 = 0;
+	opMatrix.m31 = 0;
+	opMatrix.m32 = 0;
+	opMatrix.m33 = 1;
+}

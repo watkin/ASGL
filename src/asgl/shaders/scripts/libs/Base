@@ -1,0 +1,188 @@
+#name Base;
+
+property Buffer boneIndexBuffer {name = "Bone Index Buffer";}
+property Buffer normalBuffer {name = "Normal Buffer";}
+property Buffer tangentBuffer {name = "Tangent Buffer";}
+property Buffer texCoordBuffer {name = "TexCoord Buffer";}
+property Buffer vertexBuffer {name = "Vertex Buffer";}
+property Buffer weightBuffer {name = "Weight Buffer";}
+
+property Texture diffuseTex {name = "Diffuse Texture";}
+property Texture normalTex {name = "Normal Texture";}
+property Texture sourceTex {name = "Source Texture"}
+
+property Constants localToProjMatrix {name = "Local To Projection Matrix4x4"; length = 4;}
+property Constants localToViewMatrix {name = "Local To View Matrix3x4"; length = 3;}
+property Constants localToWorldMatrix {name = "Local To World Matrix3x4"; length = 3;}
+property Constants projToViewMatrix {name = "Projection To View Matrix4x4"; length = 4;}
+property Constants projToWorldMatrix {name = "Projection To World Matrix4x4"; length = 4;}
+property Constants viewToProjMatrix {name = "View To Projection Matrix4x4"; length = 4;}
+property Constants worldToProjMatrix {name = "World To Projection Matrix4x4"; length = 4;}
+
+property Constants viewWorldPosition {name = "View World Position"; length = 1;}
+
+property Constants additiveColor {name = "Additive Color"; length = 1; values = [0, 0, 0, 0];}
+property Constants backgroundColor {name = "Background Color"; length = 1; values = [0, 0, 0, 1];}
+property Constants multiplyColor {name = "Multiply Color"; length = 1; values = [1, 1, 1, 1];}
+property Constants colorAttribute {name = "Color Attribute"; length = 1; values = [1, 1, 1, 1];}
+
+/*
+ regionX (x0), regionY (y0), regionWidth (z0), regionHeight (w0)
+*/
+property Constants diffuseTexRegion {name = "Diffuse Texture Region"; length = 1; values = [0, 0, 1, 1];}
+
+property Constants filterMatrix33 {name = "Filter Matrix3x3"; length = 3;}
+property Constants filterMatrix55 {name = "Filter Matrix5x5"; length = 7;}
+
+/*
+ x = width, y = height, z = ratio pre x pixel, w = ratio pre y pixel
+*/
+property Constants sourceTexAttribute {name = "Source Tex Attribute"; length = 1;}
+
+/*
+ x = threshold, y = square of threshold
+*/
+property Constants threshold {name = "Threshold"; length = 1;}
+
+#define BONE_IDX_BUF() {
+	attribute(boneIndexBuffer)
+}
+
+#define NRM_BUF() {
+	attribute(normalBuffer)
+}
+
+#define TAN_BUF() {
+	attribute(tangentBuffer)
+}
+
+#define TC_BUF() {
+	attribute(texCoordBuffer)
+}
+
+#define VERT_BUF() {
+	attribute(vertexBuffer)
+}
+
+#define WT_BUF() {
+	attribute(weightBuffer)
+}
+
+#define DIFF_TEX() {
+	diffuseTex
+}
+
+#define NRM_TEX() {
+	normalTex
+}
+
+#define SRC_TEX() {
+	sourceTex
+}
+
+#define M44_L2P () {
+	constant(localToProjMatrix)
+}
+
+#define M34_L2V () {
+	constant(localToViewMatrix)
+}
+
+#define M34_L2W () {
+	constant(localToWorldMatrix)
+}
+
+#define M44_P2V () {
+	constant(projToViewMatrix)
+}
+
+#define M44_P2W () {
+	constant(projToWorldMatrix)
+}
+
+#define M44_V2P () {
+	constant(viewToProjMatrix)
+}
+
+#define M44_W2P () {
+	constant(worldToProjMatrix)
+}
+
+#define VIEW_WPOS () {
+	constant(viewWorldPosition)
+}
+
+#define DIFF_TEX_REGION() {
+	constant(diffuseTexRegion)
+}
+
+#define ADD_COLOR() {
+	constant(additiveColor)
+}
+
+#define BG_COLOR() {
+	constant(backgroundColor)
+}
+
+#define MUL_COLOR() {
+	constant(multiplyColor)
+}
+
+#define COLOR_ATT() {
+	constant(colorAttribute)
+}
+
+#define FILTER_M33_CONST () {
+	filterMatrix33
+}
+
+#define FILTER_M55_CONST () {
+	filterMatrix55
+}
+
+#define SRC_TEX_ATT() {
+	constant(sourceTexAttribute)
+}
+
+#define SRC_TEX_ATT_CONST() {
+	sourceTexAttribute
+}
+
+#define THRESH() {
+	constant(threshold);
+}
+
+#define THRESH_CONST() {
+	threshold
+}
+
+#define LIGHT0() {}
+#define LIGHT1() {}
+
+#define SHADOW0() {}
+#define SHADOW1() {}
+
+#define PARTICLE_ROTATE() {}
+
+#define TEXTURE_ANIMATION() {}
+
+#define COLOR_FILTER() {}
+
+#define SCREEN_CLIP() {}
+
+#define BILLBOARD() {}
+
+#define NUM_BLEND_BONE() {}
+
+#define MULTIPLIED_ALPHA() {}
+
+float2 transformTexCoord(float2 tc, float4 region) {
+	return region.xy + tc * region.zw;
+}
+float4 transformTexCoord(float4 tc, float4 region) {
+	return region.xyxy + tc * region.zwzw;
+}
+
+float2 invertTransformTexCoord(float2 tc, float4 region) {
+	return (tc - region.xy ) / region.zw;
+}

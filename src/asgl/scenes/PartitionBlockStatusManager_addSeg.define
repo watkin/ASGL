@@ -1,0 +1,9 @@
+seg = _segs[useSegNum++];
+seg.x = ix;
+seg.y = iy;
+seg.z = iz;
+absX = sx-ix;
+absY = sy-iy;
+absZ = sz-iz;
+seg.sortValue = (absX < 0 ? -absX : absX) + (absY < 0 ? -absY : absY) + (absZ < 0 ? -absZ : absZ);
+_addMap[addIndex++] = seg;

@@ -1,0 +1,20 @@
+//parsm:coord3D:Coordinates3D
+
+var coordLooping:Boolean = coord3D._isLooping;
+coord3D._isLooping = true;
+
+for (var coordIndex:int = 0; coordIndex < coord3D._delayNumChildren; coordIndex++) {
+	var childCoord:* = coord3D._delayChildren[coordIndex];
+	if (childCoord == null) {
+		for (var coordIndex2:int = coord3D._delayNumChildren - 1; coordIndex2 > coordIndex; coordIndex2--) {
+			childCoord = coord3D._delayChildren[--coord3D._delayNumChildren];
+			if (childCoord != null) break;
+		}
+		
+		if (childCoord == null) {
+			break;
+		} else {
+			childCoord._containerIndex = coordIndex;
+			coord3D._delayChildren[coordIndex] = childCoord;
+		}
+	}

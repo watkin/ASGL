@@ -1,0 +1,53 @@
+//need declare vars:
+//var parent:SpaceSubdivisionNode
+//var prev:SpaceSubdivisionNode
+//var next:SpaceSubdivisionNode
+
+//params id:uint, oldNode:SpaceSubdivisionNode
+
+delete oldNode.currentNodeCullingObjectMap[id];
+delete _globalCullingObjectMap[id];
+
+oldNode.totalEntities--;
+if (oldNode.totalEntities == 0 && oldNode.firstChild == null) {
+	oldNode.isUnused = true
+	parent = oldNode.parent;
+	while (parent != null) {
+		prev = oldNode.prev;
+		next = oldNode.next;
+		
+		if (prev == null) {
+			if (next == null) {
+				parent.firstChild = null;
+			} else {
+				parent.firstChild = next;
+				oldNode.next = null;
+				next.prev = null;
+			}
+		} else {
+			oldNode.prev = null;
+			if (next == null) {
+				prev.next = null;
+			} else {
+				oldNode.next = null;
+				prev.next = next;
+				next.prev = prev;
+			}
+		}
+		
+		next = parent.unusedFirstChild;
+		parent.unusedFirstChild = oldNode;
+		if (next != null) {
+			oldNode.next = next;
+			next.prev = oldNode;
+		}
+		
+		if (parent.totalEntities == 0 && parent.firstChild == null) {
+			parent.isUnused = true;
+			oldNode = parent;
+			parent = oldNode.parent;
+		} else {
+			break;
+		}
+	}
+}

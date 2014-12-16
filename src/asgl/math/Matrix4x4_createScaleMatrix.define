@@ -1,0 +1,30 @@
+//params sx:Number, sy:Number, sz:Number, [opMatrix:Matrix4x4]
+//result opMatrix;
+
+if (opMatrix == null) {
+	opMatrix = new Matrix4x4(sx, 0, 0, 0,
+						 0, sy, 0, 0,
+						 0, 0, sz);
+} else {
+	opMatrix.m00 = sx;
+	opMatrix.m01 = 0;
+	opMatrix.m02 = 0;
+	opMatrix.m03 = 0;
+	
+	opMatrix.m10 = 0;
+	opMatrix.m11 = sy;
+	opMatrix.m12 = 0;
+	opMatrix.m13 = 0;
+	
+	opMatrix.m20 = 0;
+	opMatrix.m21 = 0;
+	opMatrix.m22 = sz;
+	opMatrix.m23 = 0;
+	
+	opMatrix.m30 = 0;
+	opMatrix.m31 = 0;
+	opMatrix.m32 = 0;
+	opMatrix.m33 = 1;
+	
+	return opMatrix;
+}

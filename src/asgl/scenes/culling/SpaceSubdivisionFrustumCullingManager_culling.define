@@ -1,0 +1,13 @@
+var bound:BoundingAxisAlignedBox = node.bound;
+
+var minX:Number = bound.minX;
+var maxX:Number = bound.maxX;
+var minY:Number = bound.minY;
+var maxY:Number = bound.maxY;
+var minZ:Number = bound.minZ;
+var maxZ:Number = bound.maxZ;
+
+include '../../bounds/BoundingFrustum_isBoxInFrustum.define';
+
+var entityMap:Object;
+var entity:*;

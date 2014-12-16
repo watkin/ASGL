@@ -1,0 +1,195 @@
+#name Filter;
+
+float edgeDetection(Texture t, float2 tc, float2 ratioPrePixel, Constants m, float squareOfThreshold) {
+	float sx = gray(tex(tc, t).xyz) * constant(m, 1).x;
+	
+	float2 tc1 = tc - ratioPrePixel;
+	sx += gray(tex(tc1, t).xyz) * constant(m).x;
+	float sy = sx;
+	
+	tc1.x = tc.x;
+	float c = gray(tex(tc1, t).xyz);
+	sx += c * constant(m).y;
+	sy += c * constant(m).w;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c = gray(tex(tc1, t).xyz);
+	sx += c * constant(m).z;
+	sy += c * constant(m, 1).z;
+	
+	tc1.y = tc.y;
+	c = gray(tex(tc1, t).xyz);
+	sx += c * constant(m, 1).y;
+	sy += c * constant(m, 1).w;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c = gray(tex(tc1, t).xyz);
+	sx += c * constant(m, 1).w;
+	sy += c * constant(m).y;
+	
+	tc1.y = tc.y - ratioPrePixel.y;
+	c = gray(tex(tc1, t).xyz);
+	sx += c * constant(m, 1).z;
+	sy += c * constant(m).z;
+	
+	tc1.x = tc.x;
+	c = gray(tex(tc1, t).xyz);
+	sx += c * constant(m, 1).w;
+	sy += c * constant(m, 1).y;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c = gray(tex(tc1, t).xyz) * constant(m, 2).x;
+	sx += c;
+	sy += c;
+	
+	return if(sx * sx + sy * sy > squareOfThreshold, 0, 1);
+}
+float edgeDetection(Texture t, float2 tc, Constants texAtt, Constants m, Constants threshold) {
+	return edgeDetection(t, tc, constant(texAtt).zw, m, constant(threshold).y);
+}
+
+float4 emboss(Texture t, float2 tc, float2 ratioPrePixel, float4 bgColor) {
+	float4 op = bgColor;
+	op.xyz += gray(tex(tc, t).xyz - tex(tc - ratioPrePixel, t).xyz);
+	
+	return op;
+}
+float4 emboss(Texture t, float2 tc, Constants texAtt, float4 bgColor) {
+	return emboss(t, tc, constant(texAtt).zw, bgColor);
+}
+
+float4 dispersion33(Texture t, float2 tc, float2 ratioPrePixel, Constants m) {
+	float4 c = tex(tc, t) * constant(m, 1).x;
+	
+	float2 tc1 = tc - ratioPrePixel;
+	c += tex(tc1, t) * constant(m).x;
+	
+	tc1.x = tc.x;
+	c += tex(tc1, t) * constant(m).y;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m).z;
+	
+	tc1.y = tc.y;
+	c += tex(tc1, t) * constant(m, 1).y;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 1).w;
+	
+	tc1.y = tc.y - ratioPrePixel.y;
+	c += tex(tc1, t) * constant(m, 1).z;
+	
+	tc1.x = tc.x;
+	c += tex(tc1, t) * constant(m, 1).w;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 2).x;
+	
+	return c;
+}
+float4 dispersion33(Texture t, float2 tc, Constants texAtt, Constants m) {
+	return dispersion33(t, tc, constant(texAtt).zw, m);
+}
+
+float4 dispersion55(Texture t, float2 tc, float2 ratioPrePixel, Constants m) {
+	float4 c = tex(tc, t) * constant(m, 3).x;
+	
+	float2 offset2 = ratioPrePixel * 2;
+	
+	float2 tc1 = tc - offset2;
+	c += tex(tc1, t) * constant(m).x;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m).y;
+	
+	tc1.x = tc.x;
+	c += tex(tc1, t) * constant(m).z;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m).w;
+	
+	tc1.x = tc.x + offset2.x;
+	c += tex(tc1, t) * constant(m, 1).x;
+	
+	tc1.y = tc.y - ratioPrePixel.y;
+	c += tex(tc1, t) * constant(m, 2).y;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 2).x;
+	
+	tc1.x = tc.x;
+	c += tex(tc1, t) * constant(m, 1).w;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 1).z;
+	
+	tc1.x = tc.x - offset2.x;
+	c += tex(tc1, t) * constant(m, 1).y;
+	
+	tc1.y = tc.y;
+	c += tex(tc1, t) * constant(m, 2).z;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 2).w;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 3).y;
+	
+	tc1.x = tc.x + offset2.x;
+	c += tex(tc1, t) * constant(m, 3).z;
+	
+	tc1.y = tc.y + ratioPrePixel.y;
+	c += tex(tc1, t) * constant(m, 4).w;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 4).z;
+	
+	tc1.x = tc.x;
+	c += tex(tc1, t) * constant(m, 4).y;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 4).x;
+	
+	tc1.x = tc.x - offset2.x;
+	c += tex(tc1, t) * constant(m, 3).w;
+	
+	tc1.y = tc.y + offset2.y;
+	c += tex(tc1, t) * constant(m, 5).x;
+	
+	tc1.x = tc.x - ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 5).y;
+	
+	tc1.x = tc.x;
+	c += tex(tc1, t) * constant(m, 5).z;
+	
+	tc1.x = tc.x + ratioPrePixel.x;
+	c += tex(tc1, t) * constant(m, 5).w;
+	
+	tc1.x = tc.x + offset2.x;
+	c += tex(tc1, t) * constant(m, 6).x;
+	
+	return c;
+}
+float4 dispersion55(Texture t, float2 tc, Constants texAtt, Constants m) {
+	return dispersion55(t, tc, constant(texAtt).zw, m);
+}
+
+/*
+ @param factor is -1 to 0 to 1
+*/
+float3 brightness(float3 rgb, float factor) {
+	rgb += factor;
+}
+
+float gray(float3 rgb) {
+	return (rgb.x + rgb.y + rgb.z) / 3;
+}
+
+/*
+ @param blendColor when blendColor = 0.5, result is srcColor
+*/
+float4 overlay(float4 srcColor, float4 blendColor) {
+	float4 c1 = 2 * srcColor * blendColor;
+	float4 c2 = 1 - 2 * (1 - blendColor) * (1 - srcColor);
+	return if(srcColor < 0.5, c1, c2);
+}

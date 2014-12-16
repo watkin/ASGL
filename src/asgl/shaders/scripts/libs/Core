@@ -1,0 +1,354 @@
+#name Core;
+
+struct Constants {
+	string name;
+	float index;
+	float length;
+	float[] values;
+}
+
+struct Texture {
+	string name;
+	float index;
+}
+
+struct Buffer {
+	string name;
+	float index;
+}
+
+float abs(float a);
+float2 abs(float2 a);
+float3 abs(float3 a);
+float4 abs(float4 a);
+
+void clip(float a);
+void clip(float2 a);
+void clip(float3 a);
+void clip(float4 a);
+
+float cos(float a);
+float2 cos(float2 a);
+float3 cos(float3 a);
+float4 cos(float4 a);
+
+float3 cross(float3 a, float3 b);
+
+float ddx(float a);
+float2 ddx(float2 a);
+float3 ddx(float3 a);
+float4 ddx(float4 a);
+
+float ddy(float a);
+float2 ddy(float2 a);
+float3 ddy(float3 a);
+float4 ddy(float4 a);
+
+float dot3(float3 a, float3 b);
+
+float dot4(float4 a, float4 b);
+
+float exp2(float a);
+float2 exp2(float2 a);
+float3 exp2(float3 a);
+float4 exp2(float4 a);
+
+float frac(float a);
+float2 frac(float2 a);
+float3 frac(float3 a);
+float4 frac(float4 a);
+
+float log2(float a);
+float2 log2(float2 a);
+float3 log2(float3 a);
+float4 log2(float4 a);
+
+float3 m33(float3 v, float4 m);
+float3 m33(float3 v, float3 m00_m20, float3 m01_m21, float3 m02_m22) {
+	float3 a;
+	a.x = dot(v, m00_m20);
+	a.y = dot(v, m01_m21);
+	a.z = dot(v, m02_m22);
+	return a;
+}
+
+float3 m34(float4 v, float4 m);
+
+float4 m44(float4 v, float4 m);
+
+float max(float a, float b);
+float2 max(float2 a, float2 b);
+float3 max(float3 a, float3 b);
+float4 max(float4 a, float4 b);
+
+float min(float a, float b);
+float2 min(float2 a, float2 b);
+float3 min(float3 a, float3 b);
+float4 min(float4 a, float4 b);
+
+float3 normalize(float3 a);
+
+float pow(float a, float b);
+float2 pow(float2 a, float2 b);
+float3 pow(float3 a, float3 b);
+float4 pow(float4 a, float4 b);
+
+float rcp(float a);
+float2 rcp(float2 a);
+float3 rcp(float3 a);
+float4 rcp(float4 a);
+
+float rsqrt(float a);
+float2 rsqrt(float2 a);
+float3 rsqrt(float3 a);
+float4 rsqrt(float4 a);
+
+float saturate(float a);
+float2 saturate(float2 a);
+float3 saturate(float3 a);
+float4 saturate(float4 a);
+
+float sin(float a);
+float2 sin(float2 a);
+float3 sin(float3 a);
+float4 sin(float4 a);
+
+float sqrt(float a);
+float2 sqrt(float2 a);
+float3 sqrt(float3 a);
+float4 sqrt(float4 a);
+
+/*
+ @filter : 0 or "nearest", 1 or "linear".
+ @mipmap : 0 or "mipnone", 1 or "mipnearest", 2 or "miplinear".
+ @wrap : 0 or "clamp", 1 or "repeat".
+ @special : 0 or "specialnone", 4 or "ignoresampler".
+ @format : 0 or "rgba", 1 or "dxt1", 2 or "dxt5", 3 or "video".
+*/
+float4 tex(float2 tc, float sampler, float filter, float mipmap, float wrap, float special, float format);
+float4 tex(float2 tc, Texture texture);
+float4 tex(float3 tc, float sampler, float filter, float mipmap, float wrap, float special, float format);
+float4 tex(float3 tc, Texture texture);
+
+float4 attribute(float index);
+float4 attribute(Buffer buffer);
+
+float4 constant(float index);
+float4 constant(float index, float offset);
+float4 constant(Constants const);
+float4 constant(Constants const, float index);
+float4 constant(Constants const, float index, float offset);
+
+float dot(float a, float b) {
+	return a * b;
+}
+float dot(float2 a, float2 b) {
+	return a.x * b.x + a.y * b.y;
+}
+float dot(float3 a, float3 b) {
+	return dot3(a, b);
+}
+float dot(float4 a, float4 b) {
+	return dot4(a, b);
+}
+
+float2 float2(float x) {
+	float2 a;
+	a = x;
+	return a;
+}
+float2 float2(float x, float y) {
+	float2 a;
+	a.x = x;
+	a.y = y;
+	return a;
+}
+
+float3 float3(float x) {
+	float3 a;
+	a = x;
+	return a;
+}
+float3 float3(float x, float y) {
+	float3 a;
+	a = y;
+	a.x = x;
+	return a;
+}
+float3 float3(float x, float y, float z) {
+	float3 a;
+	a.x = x;
+	a.y = y;
+	a.z = z;
+	return a;
+}
+
+float4 float4(float x) {
+	float4 a;
+	a = x;
+	return a;
+}
+float4 float4(float x, float y) {
+	float4 a;
+	a = y;
+	a.x = x;
+	return a;
+}
+float4 float4(float x, float y, float z) {
+	float4 a;
+	a = z;
+	a.x = x;
+	a.y = y;
+	return a;
+}
+float4 float4(float x, float y, float z, float w) {
+	float4 a;
+	a.x = x;
+	a.y = y;
+	a.z = z;
+	a.w = w;
+	return a;
+}
+
+/*
+ @a : boolean 0 or 1
+*/
+#define IF(a, x, y) {
+	return a * x + (1 - a) * y;
+}
+float if(float a, float x, float y) {
+	IF(a, x, y)
+}
+float2 if(float a, float2 x, float2 y) {
+	IF(a, x, y)
+}
+float2 if(float2 a, float2 x, float2 y) {
+	IF(a, x, y)
+}
+float3 if(float a, float3 x, float3 y) {
+	IF(a, x, y)
+}
+float3 if(float3 a, float3 x, float3 y) {
+	IF(a, x, y)
+}
+float4 if(float a, float4 x, float4 y) {
+	IF(a, x, y)
+}
+float4 if(float4 a, float4 x, float4 y) {
+	IF(a, x, y)
+}
+
+void ife(float a, float b);
+void ife(float2 a, float2 b);
+void ife(float3 a, float3 b);
+void ife(float4 a, float4 b);
+
+void ifl(float a, float b);
+void ifl(float2 a, float2 b);
+void ifl(float3 a, float3 b);
+void ifl(float4 a, float4 b);
+
+void ifg(float a, float b);
+void ifg(float2 a, float2 b);
+void ifg(float3 a, float3 b);
+void ifg(float4 a, float4 b);
+
+void ifne(float a, float b);
+void ifne(float2 a, float2 b);
+void ifne(float3 a, float3 b);
+void ifne(float4 a, float4 b);
+
+void else();
+
+void endif();
+
+/*
+ @a : boolean 0 or 1
+ @b : boolean 0 or 1
+*/
+#define IS_AND (a, b) {
+	return (a + b) == 2;
+}
+float _isAnd(float a, float b) {
+	IS_AND(a, b)
+}
+float2 _isAnd(float2 a, float2 b) {
+	IS_AND(a, b)
+}
+float3 _isAnd(float3 a, float3 b) {
+	IS_AND(a, b)
+}
+float4 _isAnd(float4 a, float4 b) {
+	IS_AND(a, b)
+}
+
+#define IS_GREATER (a, b) {
+	return (a >= b) != (a == b);
+}
+float _isGreater(float a, float b) {
+	IS_GREATER(a, b)
+}
+float2 _isGreater(float2 a, float2 b) {
+	IS_GREATER(a, b)
+}
+float3 _isGreater(float3 a, float3 b) {
+	IS_GREATER(a, b)
+}
+float4 _isGreater(float4 a, float4 b) {
+	IS_GREATER(a, b)
+}
+
+#define IS_LESS_EQUAL (a, b) {
+	return (a == b) != (a < b);
+}
+float _isLessEqual(float a, float b) {
+	IS_LESS_EQUAL(a, b)
+}
+float2 _isLessEqual(float2 a, float2 b) {
+	IS_LESS_EQUAL(a, b)
+}
+float3 _isLessEqual(float3 a, float3 b) {
+	IS_LESS_EQUAL(a, b)
+}
+float4 _isLessEqual(float4 a, float4 b) {
+	IS_LESS_EQUAL(a, b)
+}
+
+/*
+ @a : boolean 0 or 1
+*/
+#define IS_NOT (a) {
+	return a == 0;
+}
+float _isNot(float a) {
+	IS_NOT(a)
+}
+float2 _isNot(float2 a) {
+	IS_NOT(a)
+}
+float3 _isNot(float3 a) {
+	IS_NOT(a)
+}
+float4 _isNot(float4 a) {
+	IS_NOT(a)
+}
+
+/*
+ @a : boolean 0 or 1
+ @b : boolean 0 or 1
+*/
+#define IS_OR (a, b) {
+	return (a + b) > 0;
+}
+float _isOr(float a, float b) {
+	IS_OR(a, b)
+}
+float2 _isOr(float2 a, float2 b) {
+	IS_OR(a, b)
+}
+float3 _isOr(float3 a, float3 b) {
+	IS_OR(a, b)
+}
+float4 _isOr(float4 a, float4 b) {
+	IS_OR(a, b)
+}

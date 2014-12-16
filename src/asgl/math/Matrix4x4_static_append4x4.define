@@ -1,0 +1,22 @@
+//opMatrix != m && opMatrix != lm
+//params m:Matrix4x4, lm:Matrix4x4, opMatrix:Matrix4x4
+
+opMatrix.m00 = m.m00 * lm.m00 + m.m01 * lm.m10 + m.m02 * lm.m20 + m.m03 * lm.m30;
+opMatrix.m01 = m.m00 * lm.m01 + m.m01 * lm.m11 + m.m02 * lm.m21 + m.m03 * lm.m31;
+opMatrix.m02 = m.m00 * lm.m02 + m.m01 * lm.m12 + m.m02 * lm.m22 + m.m03 * lm.m32;
+opMatrix.m03 = m.m00 * lm.m03 + m.m01 * lm.m13 + m.m02 * lm.m23 + m.m03 * lm.m33;
+
+opMatrix.m10 = m.m10 * lm.m00 + m.m11 * lm.m10 + m.m12 * lm.m20 + m.m13 * lm.m30;
+opMatrix.m11 = m.m10 * lm.m01 + m.m11 * lm.m11 + m.m12 * lm.m21 + m.m13 * lm.m31;
+opMatrix.m12 = m.m10 * lm.m02 + m.m11 * lm.m12 + m.m12 * lm.m22 + m.m13 * lm.m32;
+opMatrix.m13 = m.m10 * lm.m03 + m.m11 * lm.m13 + m.m12 * lm.m23 + m.m13 * lm.m33;
+
+opMatrix.m20 = m.m20 * lm.m00 + m.m21 * lm.m10 + m.m22 * lm.m20 + m.m23 * lm.m30;
+opMatrix.m21 = m.m20 * lm.m01 + m.m21 * lm.m11 + m.m22 * lm.m21 + m.m23 * lm.m31;
+opMatrix.m22 = m.m20 * lm.m02 + m.m21 * lm.m12 + m.m22 * lm.m22 + m.m23 * lm.m32;
+opMatrix.m23 = m.m20 * lm.m03 + m.m21 * lm.m13 + m.m22 * lm.m23 + m.m23 * lm.m33;
+
+opMatrix.m30 = m.m30 * lm.m00 + m.m31 * lm.m10 + m.m32 * lm.m20 + m.m33 * lm.m30;
+opMatrix.m31 = m.m30 * lm.m01 + m.m31 * lm.m11 + m.m32 * lm.m21 + m.m33 * lm.m31;
+opMatrix.m32 = m.m30 * lm.m02 + m.m31 * lm.m12 + m.m32 * lm.m22 + m.m33 * lm.m32;
+opMatrix.m33 = m.m30 * lm.m03 + m.m31 * lm.m13 + m.m32 * lm.m23 + m.m33 * lm.m33;

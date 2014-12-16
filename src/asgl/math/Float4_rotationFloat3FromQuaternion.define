@@ -1,0 +1,14 @@
+//params f4:Float4, f3:Float3, opFloat3:Float3
+
+var x:Number = f3.x;
+var y:Number = f3.y;
+var z:Number = f3.z;
+
+var w1:Number = -f4.x * x - f4.y * y - f4.z * z;
+var x1:Number = f4.w * x + f4.y * z - f4.z * y;
+var y1:Number = f4.w * y - f4.x * z + f4.z * x;
+var z1:Number = f4.w * z + f4.x * y - f4.y * x;
+
+opFloat3.x = -w1 * f4.x + x1 * f4.w - y1 * f4.z + z1 * f4.y;
+opFloat3.y = -w1 * f4.y + x1 * f4.z + y1 * f4.w - z1 * f4.x;
+opFloat3.z = -w1 * f4.z - x1 * f4.y + y1 * f4.x + z1 * f4.w;

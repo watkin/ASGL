@@ -1,0 +1,3 @@
+}
+
+if (!coordLooping) coord3D._isLooping = false;

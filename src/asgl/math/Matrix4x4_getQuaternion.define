@@ -1,0 +1,44 @@
+//params m:Matrix4x4, [opFloat4:Float4]
+//result opFloat4;
+
+if (opFloat4 == null) opFloat4 = new Float4();
+var s:Number;
+var tr:Number = m.m00 + m.m11 + m.m22;
+if (tr>0) {
+	s = Math.sqrt(tr + 1);
+	opFloat4.w = s * 0.5;
+	s = 0.5 / s;
+	opFloat4.x = (m.m12 - m.m21) * s;
+	opFloat4.y = (m.m20 - m.m02) * s;
+	opFloat4.z = (m.m01 - m.m10) * s;
+} else {
+	var quatIndex:int = 0;
+	if (m.m11 > m.m00) quatIndex = 1;
+	if (quatIndex == 0) {
+		if (m.m22 > m.m00) quatIndex = 2;
+	} else {
+		if (m.m22 > m.m11) quatIndex = 2;
+	}
+	if (quatIndex == 0) {
+		s = Math.sqrt((m.m00 - (m.m11 + m.m22)) + 1);
+		opFloat4.x = s * 0.5;
+		if (s != 0) s = 0.5 / s;
+		opFloat4.y = (m.m01 + m.m10) * s;
+		opFloat4.z = (m.m02 + m.m20) * s;
+		opFloat4.w = (m.m12 - m.m21) * s;
+	} else if (quatIndex == 1) {
+		s = Math.sqrt((m.m11 - (m.m22 + m.m00)) + 1);
+		opFloat4.y = s * 0.5;
+		if (s != 0) s = 0.5 / s;
+		opFloat4.z = (m.m12 + m.m21) * s;
+		opFloat4.x = (m.m10 + m.m01) * s;
+		opFloat4.w = (m.m20 - m.m02) * s;
+	} else {
+		s = Math.sqrt((m.m22 - (m.m00 + m.m11)) + 1);
+		opFloat4.z = s * 0.5;
+		if (s != 0) s = 0.5 / s;
+		opFloat4.x = (m.m20 + m.m02) * s;
+		opFloat4.y = (m.m21 + m.m12) * s;
+		opFloat4.w = (m.m01 - m.m10) * s;
+	}
+}

@@ -1,0 +1,38 @@
+//params f4:Float4, [opMatrix:Matrix4x4]
+//result opMatrix:Matrix4x4
+
+var x2:Number = f4.x * 2;
+var y2:Number = f4.y * 2;
+var z2:Number = f4.z * 2;
+var xx:Number = f4.x * x2;
+var xy:Number = f4.x * y2;
+var xz:Number = f4.x * z2;
+var yy:Number = f4.y * y2;
+var yz:Number = f4.y * z2;
+var zz:Number = f4.z * z2;
+var wx:Number = f4.w * x2;
+var wy:Number = f4.w * y2;
+var wz:Number = f4.w * z2;
+if (opMatrix == null) {
+	opMatrix = new Matrix4x4(1 - yy - zz, xy + wz, xz - wy, 0, xy - wz, 1 - xx - zz, yz + wx, 0, xz + wy, yz - wx, 1 - xx - yy, 0);
+} else {
+	opMatrix.m00 = 1 - yy - zz;
+	opMatrix.m01 = xy + wz;
+	opMatrix.m02 = xz - wy;
+	opMatrix.m03 = 0;
+	
+	opMatrix.m10 = xy - wz;
+	opMatrix.m11 = 1 - xx - zz;
+	opMatrix.m12 = yz + wx;
+	opMatrix.m13 = 0;
+	
+	opMatrix.m20 = xz + wy;
+	opMatrix.m21 = yz - wx;
+	opMatrix.m22 = 1 - xx - yy;
+	opMatrix.m23 = 0;
+	
+	opMatrix.m30 = 0;
+	opMatrix.m31 = 0;
+	opMatrix.m32 = 0;
+	opMatrix.m33 = 1;
+}
